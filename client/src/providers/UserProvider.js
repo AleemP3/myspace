@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-const UserContext = React.createContext();
+export const UserContext = React.createContext();
 
 export const UserConsumer = UserContext.Consumer;
 
@@ -11,7 +11,7 @@ export default class UserProvider extends React.Component {
   handleRegister = (user, history) => {
     axios.post("/api/auth", user)
       .then(res => {
-        this.setState({ user: res.data.data });
+        this.setState({ user: res.data });
         history.push("/");
       })
       .catch(err => {

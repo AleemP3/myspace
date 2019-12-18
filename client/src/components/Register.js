@@ -4,7 +4,7 @@ import { UserConsumer, } from "../providers/UserProvider";
 
 class Register extends React.Component {
 
-  state = { email: "", password: "", passwordConfirmation: "" }
+  state = { firstname: "", lastname: "", email: "", password: "", passwordConfirmation: "", avatar: "" }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -25,35 +25,57 @@ class Register extends React.Component {
         <Header as="h3">Register</Header>
         <hr />
           <Form onSubmit={this.handleSubmit}>
-            <Form.Input 
-            label="Email"
-            name="email"
-            required
-            autoFocus
-            placeholder="email"
-            value={this.state.email}
-            type="email"
-            onChange={this.handleChange}
+          <Form.Input 
+              label="First Name"
+              name="firstname"
+              required
+              autoFocus
+              placeholder="First Name"
+              value={this.state.firstname}
+              onChange={this.handleChange}
             />
             <Form.Input 
-            label="Password"
-            name="password"
-            required
-            autoFocus
-            placeholder="password"
-            value={this.state.password}
-            type="password"
-            onChange={this.handleChange}
+              label="Last Name"
+              name="lastname"
+              required
+              placeholder="Last Name"
+              value={this.state.lastname}
+              onChange={this.handleChange}
             />
             <Form.Input 
-            label="Password Confirmation"
-            name="passwordConfirmation"
-            required
-            autoFocus
-            placeholder="password confirmation"
-            value={this.state.passwordConfirmation}
-            type="password"
-            onChange={this.handleChange}
+              label="Email"
+              name="email"
+              required
+              placeholder="email"
+              value={this.state.email}
+              type="email"
+              onChange={this.handleChange}
+            />
+            <Form.Input 
+              label="Password"
+              name="password"
+              required
+              placeholder="password"
+              value={this.state.password}
+              type="password"
+              onChange={this.handleChange}
+            />
+            <Form.Input 
+              label="Password Confirmation"
+              name="passwordConfirmation"
+              required
+              placeholder="password confirmation"
+              value={this.state.passwordConfirmation}
+              type="password"
+              onChange={this.handleChange}
+            />
+            <Form.Input 
+              label="Image"
+              name="avatar"
+              required
+              placeholder="Add Image URL (png, jpg, etc)"
+              value={this.state.avatar}
+              onChange={this.handleChange}
             />
             <Form.Button color="inverted yellow">Submit</Form.Button>
           </Form>
