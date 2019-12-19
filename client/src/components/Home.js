@@ -62,10 +62,8 @@ const Home = () => {
   }
 
   const addPost = (data) => {
-    axios.post(`/api/users/${user.data.id}/posts`, data)
-      .then(res => {
-        setPosts(res.data);
-      })
+    debugger 
+    setPosts([...posts, data]);
   }
 
   const renderPosts = () => {
@@ -76,8 +74,22 @@ const Home = () => {
           <Card.Meta>{p.status}</Card.Meta>
           <Card.Description>{p.body}</Card.Description>
         </Card.Content>
+        <Card.Content>
+          <Button basic icon color="red" onClick={ () => deletePost(p.id)}><Icon name="trash" /></Button>
+        </Card.Content>
       </Card>
     ))
+  }
+
+  const deletePost = (id) => {
+    axios.delete(`/api/users/${user.data.id}/posts/${id}`)
+      .then(res => {
+        const newPosts = posts.filter(p => {
+          if ( p.id !== id)
+            return p
+        })
+        setPosts(newPosts);
+      })
   }
 
   const toggleForm = () => {
