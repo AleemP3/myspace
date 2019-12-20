@@ -15,4 +15,9 @@ class Api::UsersController < ApplicationController
     render json: User.liked(current_user.liked_friends)
     # binding.pry 
   end
+
+  def my_friends_remove
+    current_user.liked_friends.delete(params[:id].to_i)
+    current_user.save 
+  end 
 end

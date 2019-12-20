@@ -14,6 +14,7 @@ const Home = () => {
   const [ others, setOthers ] = useState([]);
   const [ posts, setPosts ] = useState([]);
   const [ formStatus, setFormStatus ] = useState(false);
+  const [ editStatus, setEditStatus ] = useState(false);
 
   useEffect( () => {
     axios.get("/api/users")
@@ -29,6 +30,7 @@ const Home = () => {
 
 
   const sample = (id) => {
+    
     const otherUsers = others.filter(s => {
       if (s.id !== id) {
           return s
@@ -61,23 +63,31 @@ const Home = () => {
     }
   }
 
-  const addPost = (data) => {
-    debugger 
+  const addPost = (data) => { 
     setPosts([...posts, data]);
   }
 
   const renderPosts = () => {
+    const colors = ["red", "blue", "green", "teal", "yellow", "purple", "violet"]
+    const color = Math.floor(Math.random() * colors.length); 
+
     return posts.map(p => (
-      <Card>
+      <>
+      { editStatus ? <PostForm edit={editPost} {...p} id={p.id} toggle={toggleEdit}/> : 
+      <Card color={colors[color]}> 
         <Card.Content>
           <Card.Header>{p.title}</Card.Header>
+          <hr />
           <Card.Meta>{p.status}</Card.Meta>
           <Card.Description>{p.body}</Card.Description>
         </Card.Content>
         <Card.Content>
           <Button basic icon color="red" onClick={ () => deletePost(p.id)}><Icon name="trash" /></Button>
+          <Button basic icon color="green" onClick={ () => toggleEdit()}><Icon name="pencil" /></Button>
         </Card.Content>
       </Card>
+      }
+      </>
     ))
   }
 
@@ -92,8 +102,23 @@ const Home = () => {
       })
   }
 
+  const editPost = (data) => {
+    axios.put(`/api/users/${user.data.id}/posts/${data.id}`, data)
+      .then( res => { 
+        const newPosts = posts.map(post => {
+        if (post.id === data.id)
+        return data
+      })
+      setPosts(newPosts);
+    })
+  }
+
   const toggleForm = () => {
     setFormStatus(!formStatus); 
+  }
+  
+  const toggleEdit = () => {
+    setEditStatus(!editStatus); 
   }
 
   const nextChoice = (id, otherUsers) => {

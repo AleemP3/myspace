@@ -1,18 +1,29 @@
 import React from "react";
-import { Menu, } from "semantic-ui-react"; 
+import { Menu, Icon } from "semantic-ui-react"; 
 import { UserConsumer, } from "../providers/UserProvider"; 
 import { Link, withRouter, } from "react-router-dom"; 
+import { useWindowWidth } from "./setWindowWidth"; 
 
 const Navbar = (props) => {
+
+  const width = useWindowWidth(); 
 
   const rightNavItems = (auth) => {
     if (auth.user) {
       return (
       <Menu.Menu position="right">
-        <Menu.Item 
-        name="logout"
-        onClick={() => auth.handleLogout(props.history)}
-        />
+        { width <= 500 ? 
+          <Menu.Item>
+            <Icon name="bars" />
+          </Menu.Item> 
+        :
+        <>
+          <Menu.Item 
+          name="logout"
+          onClick={() => auth.handleLogout(props.history)}
+          />
+        </>
+        }
       </Menu.Menu>
       )
     }

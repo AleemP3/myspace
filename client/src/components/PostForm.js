@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react"
+import React, {useState, useContext, useEffect} from "react"
 import { Form, } from "semantic-ui-react";
 import { UserContext, } from "../providers/UserProvider"; 
 import axios from "axios"; 
@@ -8,6 +8,14 @@ const PostForm = (props) => {
   const [status, setStatus] = useState("");
   const [body, setBody] = useState("");
   const { user } = useContext(UserContext);
+
+  useEffect( () => {
+    if (props.id) {
+      setTitle(props.title);
+      setStatus(props.status);
+      setBody(props.body);
+    }
+  }, [])
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -23,12 +31,17 @@ const PostForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if (props.id) {
+        props.edit({id: props.id, title, status, body})
+        props.toggle();
+      }
+    else {
     axios.post(`/api/users/${user.data.id}/posts`, { title, status, body, })
       .then( res => {
         props.add(res.data);
         props.toggle();
       })
+    }
   }
 
   return (

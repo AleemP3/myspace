@@ -15,7 +15,7 @@ class Api::PostsController < ApplicationController
   
   def update
     if current_user.posts.update(post_params)
-      render json: post
+      render json: current_user.posts
     else 
       render json: post.errors 
     end 
@@ -29,7 +29,7 @@ class Api::PostsController < ApplicationController
   private 
 
   def post_params 
-    params.require(:post).permit(:title, :status, :body)
+    params.require(:post).permit(:title, :status, :body,)
   end
 
 end
